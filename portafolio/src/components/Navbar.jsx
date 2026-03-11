@@ -1,10 +1,12 @@
 import React from "react";
+import "./Navbar.css";
 
 const Navbar = () => {
   return (
-    <nav>
-      <h2>Esteban.dev</h2>
-      <ul>
+    <nav className="navbar">
+      <h2 className="logo">Esteban.dev</h2>
+
+      <ul className="nav-links">
         <li>Inicio</li>
         <li>Sobre mi</li>
         <li>Skills</li>
