@@ -23,11 +23,11 @@ const Navbar = () => {
       <h2 className="logo">Esteban.dev</h2>
 
       <ul className="nav-links">
-        <li>Inicio</li>
-        <li>Sobre mi</li>
-        <li>Skills</li>
-        <li>Proyectos</li>
-        <li>Contacto</li>
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#about">Sobre mi</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Proyectos</a></li>
+        <li><a href="#contact">Contacto</a></li>
       </ul>
 
       <button className="theme-button" onClick={toggleTheme}>

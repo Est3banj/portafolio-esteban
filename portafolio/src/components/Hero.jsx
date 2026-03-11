@@ -3,7 +3,7 @@ import "./Hero.css";
 
 const Hero = () => {
   return (
-    <section className="hero">
+    <section id="inicio" className="hero">
 
       <h1 className="hero-title">
         Hola, soy Esteban Jurado

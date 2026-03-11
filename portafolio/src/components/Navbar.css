@@ -18,12 +18,12 @@
   gap: 30px;
 }
 
-.nav-links li {
-  cursor: pointer;
-  transition: color 0.3s;
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-color);
 }
 
-.nav-links li:hover {
+.nav-links a:hover {
   color: var(--primary-color);
 }
 .theme-button {

@@ -3,7 +3,7 @@ import "./About.css";
 
 const About = () => {
   return (
-    <section className="about">
+    <section id="about" className="about">
       <h2>Sobre mi</h2>
       <p>
         Soy Esteban Jurado, desarrollador en formación en Análisis y Desarrollo
