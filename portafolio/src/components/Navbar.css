@@ -3,8 +3,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
-  background-color: #0f172a;
-  color: #fff;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 .logo {
@@ -24,5 +24,13 @@
 }
 
 .nav-links li:hover {
-  color: #38bdf8;
+  color: var(--primary-color);
+}
+.theme-button {
+  background: none;
+  border: 1px solid var(--primary-color);
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  color: var(--text-color);
 }
