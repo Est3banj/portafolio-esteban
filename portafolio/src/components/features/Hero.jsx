@@ -24,7 +24,7 @@ const Hero = () => {
                         Esteban <span className="text-brand-primary">Jurado</span>
                     </h1>
                     <p className="text-xl md:text-2xl text-text-secondary max-w-2xl mx-auto animate-fade-in [animation-delay:200ms] [animation-fill-mode:both]">
-                        Desarrollador Full Stack
+                        Desarrollador Junior Full Stack
                         <span className="block mt-2 text-lg font-mono opacity-80">
                             Desarrollo aplicaciones web modernas usando tecnologías como
                             React, JavaScript y Node.js.
