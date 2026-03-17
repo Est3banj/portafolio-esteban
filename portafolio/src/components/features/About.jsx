@@ -45,7 +45,7 @@ const About = () => {
           <div className="grid grid-cols-2 gap-4 pt-4">
             <div className="p-4 border border-white/5 bg-bg-card rounded-lg">
               <span className="block text-brand-primary text-2xl font-bold">
-                2+
+                3+
               </span>
               <span className="text-sm text-text-secondary">
                 Proyectos desarrollados

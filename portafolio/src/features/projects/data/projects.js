@@ -31,5 +31,15 @@ export const projectsData = [
         github: 'https://github.com/Est3banj/stream-control',
         category: 'Gestión Administrativa',
         highlight: true
-    }
+    },
+    {
+    id: 'ejstore-multitenant',
+    title: 'EJ Store Platform',
+    description: 'Plataforma multi-tenant para e-commerce de servicios digitales. Permite desplegar múltiples tiendas independientes con personalización dinámica de marca (UI/UX), pasarelas de contacto personalizadas y aislamiento de datos mediante Firebase Security Rules.',
+    techs: ['React', 'Firebase', 'Cloud Functions', 'Tailwind CSS'],
+    link: 'https://ejstore-web.web.app/?v=ej', // O la URL de producción que prefieras
+    github: 'https://github.com/Est3banj/ejstore-Multi-Tenant', // Ajusta el slug si es diferente
+    category: 'Arquitectura SaaS / E-commerce',
+    highlight: true
+}
 ];
