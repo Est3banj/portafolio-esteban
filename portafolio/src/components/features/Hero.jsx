@@ -13,11 +13,11 @@ const Hero = () => {
     return (
         <section
             id="home"
-            className="relative min-h-screen flex items-center justify-center overflow-hidden px-6"
+            className="relative isolate min-h-screen flex items-center justify-center overflow-hidden px-6"
         >
             {/* Background Decorative Elements */}
-            <div className="absolute top-1/2 left-1/2 -mt-[250px] -ml-[250px] w-[500px] h-[500px] bg-brand-primary/25 rounded-full blur-3xl -z-10 animate-fade-in animate-aura-float animate-aura-pulse" />
-            <div className="absolute top-[15%] right-[5%] w-[320px] h-[320px] bg-brand-secondary/20 rounded-full blur-3xl -z-10 animate-aura-float animate-aura-pulse [animation-delay:-4s]" />
+            <div className="absolute top-1/2 left-1/2 -mt-[250px] -ml-[250px] w-[500px] h-[500px] bg-brand-primary/30 rounded-full blur-3xl -z-10 shadow-[0_0_120px_rgba(59,130,246,0.25)] animate-fade-in animate-aura-float animate-aura-pulse" />
+            <div className="absolute top-[15%] right-[5%] w-[320px] h-[320px] bg-brand-secondary/25 rounded-full blur-3xl -z-10 animate-aura-float animate-aura-pulse [animation-delay:-4s]" />
 
             <div className="max-w-4xl w-full text-center space-y-8">
                 <header className="space-y-4">
