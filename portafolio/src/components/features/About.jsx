@@ -26,21 +26,18 @@ const About = () => {
           <div className="text-text-secondary text-lg leading-relaxed space-y-4">
             <p>
               Soy Esteban Jurado, Tecnólogo en Análisis y Desarrollo de
-              Software (SENA), graduado en 2026. Me enfoco en el desarrollo de
-              aplicaciones web modernas utilizando tecnologías como JavaScript,
-              React y arquitecturas de software organizadas y escalables.
+              Software (SENA) y desarrollador Full Stack. Construyo aplicaciones
+              web modernas con React, JavaScript y arquitecturas escalables:
+              plataformas de servicios digitales, e-commerce multi-tenant y
+              dashboards administrativos que ya operan en producción.
             </p>
 
             <p>
-              Cuento con experiencia real construyendo plataformas de servicios
-              digitales, e-commerce multi-tenant y dashboards administrativos en
-              producción, con buenas prácticas de desarrollo, diseño de
-              interfaces y organización del código. Diseño la arquitectura y
-              dirijo agentes de IA como herramienta de implementación,
-              garantizando velocidad de ejecución sin perder el control del
-              diseño. Mi objetivo es resolver
-              problemas de negocio con soluciones tecnológicas sólidas y
-              mantenibles.
+              Diseño la arquitectura de cada solución y dirijo agentes de IA
+              como herramienta de implementación: velocidad de ejecución sin
+              perder el control del diseño. Escribo código con buenas prácticas
+              y diseño interfaces claras y mantenibles, porque el objetivo
+              siempre es resolver problemas de negocio reales.
             </p>
           </div>
 
