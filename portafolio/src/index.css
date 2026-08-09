@@ -19,8 +19,7 @@
   /* Custom Animations */
   --animate-fade-in: fade-in 0.5s ease-out;
   --animate-slide-up: slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  --animate-aura-float: aura-float 10s ease-in-out infinite alternate;
-  --animate-aura-pulse: aura-pulse 7s ease-in-out infinite alternate;
+  --animate-aura: aura-float 10s ease-in-out infinite alternate, aura-pulse 7s ease-in-out infinite alternate;
 }
 
 @keyframes fade-in {
@@ -61,8 +60,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .animate-aura-float,
-    .animate-aura-pulse,
+    .animate-aura,
     .animate-pulse {
       animation: none;
     }
