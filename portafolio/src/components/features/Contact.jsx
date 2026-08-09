@@ -21,7 +21,7 @@ const Contact = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const texto = `Hola Esteban! Soy ${form.nombre}. Mi email es ${form.email}.\n\n${form.mensaje}`;
-        window.open(`https://wa.me/573105686294?text=${encodeURIComponent(texto)}`, '_blank');
+        window.open(`https://wa.me/573247349128?text=${encodeURIComponent(texto)}`, '_blank');
     };
 
     return (
@@ -114,7 +114,7 @@ const Contact = () => {
 
                     {/* WhatsApp */}
                     <a 
-                        href="https://wa.me/573105686294?text=Hola%20Esteban,%20vi%20tu%20portafolio" 
+                        href="https://wa.me/573247349128?text=Hola%20Esteban,%20vi%20tu%20portafolio" 
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-3 px-8 py-4 bg-[#25D366] text-white rounded-xl font-bold hover:scale-105 transition-transform"
