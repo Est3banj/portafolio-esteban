@@ -6,13 +6,20 @@ import {
     FaCss3Alt,
     FaNodeJs,
     FaGitAlt,
-    FaGithub
+    FaGithub,
+    FaRobot,
+    FaBootstrap,
+    FaBlender,
+    FaCode
 } from "react-icons/fa";
 
 import {
     SiTailwindcss,
     SiFirebase,
-    SiMysql
+    SiMysql,
+    SiTypescript,
+    SiVite,
+    SiVercel
 } from "react-icons/si";
 
 /**
@@ -30,10 +37,14 @@ const Skills = () => {
             category: 'Frontend Development',
             items: [
                 { name: 'React', icon: <FaReact /> },
+                { name: 'TypeScript', icon: <SiTypescript /> },
                 { name: 'JavaScript', icon: <FaJs /> },
                 { name: 'HTML5', icon: <FaHtml5 /> },
                 { name: 'CSS3', icon: <FaCss3Alt /> },
-                { name: 'Tailwind CSS', icon: <SiTailwindcss /> }
+                { name: 'Tailwind CSS', icon: <SiTailwindcss /> },
+                { name: 'Vite', icon: <SiVite /> },
+                { name: 'Bootstrap', icon: <FaBootstrap /> },
+                { name: 'Framer Motion', icon: <FaBlender /> }
             ]
         },
         {
@@ -43,7 +54,10 @@ const Skills = () => {
                 { name: 'Firebase', icon: <SiFirebase /> },
                 { name: 'MySQL', icon: <SiMysql /> },
                 { name: 'Git', icon: <FaGitAlt /> },
-                { name: 'GitHub', icon: <FaGithub /> }
+                { name: 'GitHub', icon: <FaGithub /> },
+                { name: 'Vercel', icon: <SiVercel /> },
+                { name: 'VS Code', icon: <FaCode /> },
+                { name: 'Agentes de IA (dirección de ejecución)', icon: <FaRobot /> }
             ]
         },
         {

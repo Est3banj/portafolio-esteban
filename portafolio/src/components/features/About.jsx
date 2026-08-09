@@ -25,19 +25,22 @@ const About = () => {
 
           <div className="text-text-secondary text-lg leading-relaxed space-y-4">
             <p>
-              Soy Esteban Jurado, estudiante de Análisis y Desarrollo de
-              Software. Me enfoco en el desarrollo de aplicaciones web modernas
-              utilizando tecnologías como JavaScript, React y arquitecturas de
-              software organizadas y escalables.
+              Soy Esteban Jurado, Tecnólogo en Análisis y Desarrollo de
+              Software (SENA), graduado en 2026. Me enfoco en el desarrollo de
+              aplicaciones web modernas utilizando tecnologías como JavaScript,
+              React y arquitecturas de software organizadas y escalables.
             </p>
 
             <p>
-              Durante mi proceso de formación he trabajado en el desarrollo de
-              aplicaciones web, plataformas de servicios digitales y proyectos
-              académicos enfocados en buenas prácticas de desarrollo, diseño de
-              interfaces y organización del código. Mi objetivo es seguir
-              fortaleciendo mis habilidades como desarrollador y participar en
-              proyectos que generen soluciones tecnológicas útiles.
+              Cuento con experiencia real construyendo plataformas de servicios
+              digitales, e-commerce multi-tenant y dashboards administrativos en
+              producción, con buenas prácticas de desarrollo, diseño de
+              interfaces y organización del código. Diseño la arquitectura y
+              dirijo agentes de IA como herramienta de implementación,
+              garantizando velocidad de ejecución sin perder el control del
+              diseño. Mi objetivo es resolver
+              problemas de negocio con soluciones tecnológicas sólidas y
+              mantenibles.
             </p>
           </div>
 
@@ -54,10 +57,10 @@ const About = () => {
 
             <div className="p-4 border border-white/5 bg-bg-card rounded-lg">
               <span className="block text-brand-primary text-2xl font-bold">
-                SENA
+                2026
               </span>
               <span className="text-sm text-text-secondary">
-                Formación en ADSO
+                Tecnólogo ADSO — SENA
               </span>
             </div>
           </div>
@@ -84,9 +87,9 @@ const About = () => {
           {/* Tarjeta inferior */}
           <div className="absolute bottom-6 left-6 right-6 p-4 bg-bg-dark/80 backdrop-blur-sm rounded-lg border border-white/10">
             <span className="text-xs font-mono text-brand-secondary uppercase tracking-tight">
-              Especialización Actual
+              Formación
             </span>
-            <p className="text-sm font-medium">Desarrollo Web y Aplicaciones Full Stack</p>
+            <p className="text-sm font-medium">Tecnólogo en Análisis y Desarrollo de Software — SENA, 2026</p>
           </div>
         </div>
 

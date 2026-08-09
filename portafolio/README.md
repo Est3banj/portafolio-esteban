@@ -4,7 +4,7 @@ Este proyecto es mi portafolio personal como desarrollador web, creado para most
 
 Fue desarrollado con React y Vite para tener una aplicación rápida, moderna y fácil de mantener. En el proceso también utilicé herramientas de inteligencia artificial para mejorar algunos aspectos del diseño y la organización del código.
 
-El objetivo principal del proyecto es presentar mi trabajo de forma clara y profesional mientras continúo aprendiendo y mejorando como desarrollador.
+El objetivo principal del proyecto es presentar mi trabajo de forma clara y profesional como Tecnólogo en Análisis y Desarrollo de Software (SENA) graduado en 2026.
 
 ⸻
 

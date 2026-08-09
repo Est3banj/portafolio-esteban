@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Icon from '../ui/Icon';
-import { FaWhatsapp, FaLinkedin } from "react-icons/fa";
+import { FaWhatsapp, FaLinkedin, FaMapMarkerAlt } from "react-icons/fa";
+import { IoMdMail } from "react-icons/io";
 
 /**
  * Contact Component
@@ -11,6 +12,18 @@ import { FaWhatsapp, FaLinkedin } from "react-icons/fa";
  * @returns {JSX.Element} The rendered Contact section.
  */
 const Contact = () => {
+    const [form, setForm] = useState({ nombre: '', email: '', mensaje: '' });
+
+    const handleChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const texto = `Hola Esteban! Soy ${form.nombre}. Mi email es ${form.email}.\n\n${form.mensaje}`;
+        window.open(`https://wa.me/573105686294?text=${encodeURIComponent(texto)}`, '_blank');
+    };
+
     return (
         <section id="contact" className="py-24 px-6">
             <div className="max-w-3xl mx-auto text-center space-y-12">
@@ -27,7 +40,77 @@ const Contact = () => {
                     </p>
                 </header>
 
+                {/* Formulario de contacto */}
+                <form
+                    onSubmit={handleSubmit}
+                    className="space-y-4 text-left bg-bg-card/60 border border-white/10 rounded-2xl p-6 backdrop-blur-sm"
+                >
+                    <div>
+                        <label htmlFor="nombre" className="block text-sm font-medium text-text-primary mb-2">
+                            Nombre
+                        </label>
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            value={form.nombre}
+                            onChange={handleChange}
+                            required
+                            placeholder="Tu nombre"
+                            className="w-full bg-bg-dark border border-white/10 rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary/60 focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/30 transition-colors"
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-text-primary mb-2">
+                            Email
+                        </label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={form.email}
+                            onChange={handleChange}
+                            required
+                            placeholder="tu@email.com"
+                            className="w-full bg-bg-dark border border-white/10 rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary/60 focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/30 transition-colors"
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="mensaje" className="block text-sm font-medium text-text-primary mb-2">
+                            Mensaje
+                        </label>
+                        <textarea
+                            id="mensaje"
+                            name="mensaje"
+                            value={form.mensaje}
+                            onChange={handleChange}
+                            required
+                            rows={4}
+                            placeholder="Contame sobre tu proyecto..."
+                            className="w-full bg-bg-dark border border-white/10 rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary/60 focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/30 transition-colors resize-none"
+                        />
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="w-full bg-brand-primary text-white font-bold py-3.5 rounded-xl hover:opacity-90 transition-opacity"
+                    >
+                        Enviar
+                    </button>
+
+                    <p className="text-xs text-text-secondary text-center">
+                        Los mensajes llegan directo a mi WhatsApp
+                    </p>
+                </form>
+
                 <div className="flex flex-wrap justify-center gap-6">
+
+                    <div className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-white/10 text-text-primary rounded-xl">
+                        <FaMapMarkerAlt className="w-6 h-6 text-brand-primary" />
+                        Putumayo, Colombia
+                    </div>
 
                     {/* WhatsApp */}
                     <a 
@@ -38,6 +121,15 @@ const Contact = () => {
                     >
                         <FaWhatsapp className="w-6 h-6" />
                         WhatsApp
+                    </a>
+
+                    {/* Email */}
+                    <a 
+                        href="mailto:estebanjurado2005@gmail.com"
+                        className="flex items-center gap-3 px-8 py-4 bg-[#EA4335] text-white rounded-xl font-bold hover:scale-105 transition-transform"
+                    >
+                        <IoMdMail className="w-6 h-6" />
+                        Email
                     </a>
 
                     {/* GitHub */}
