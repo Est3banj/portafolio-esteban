@@ -46,7 +46,7 @@ const ProjectCard = ({ project }) => {
                     {project.techs.map((tech) => (
                         <span
                             key={tech}
-                            className="px-2 py-1 text-[10px] bg-white/5 text-text-secondary rounded font-mono border border-white/5 flex items-center gap-1.5"
+                            className="px-2.5 py-1 text-xs bg-white/5 text-text-secondary rounded font-mono border border-white/5 flex items-center gap-1.5"
                         >
                             {/* 2. Aquí insertamos el icono si existe en nuestro mapa */}
                             <span className="text-sm">

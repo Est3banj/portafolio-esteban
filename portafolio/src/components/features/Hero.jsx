@@ -15,11 +15,16 @@ const Hero = () => {
             id="home"
             className="relative min-h-screen flex items-center justify-center overflow-hidden px-6"
         >
-            {/* Background Decorative Element */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-primary/10 rounded-full blur-3xl -z-10 animate-fade-in" />
+            {/* Background Decorative Elements */}
+            <div className="absolute top-1/2 left-1/2 -mt-[250px] -ml-[250px] w-[500px] h-[500px] bg-brand-primary/25 rounded-full blur-3xl -z-10 animate-fade-in animate-aura-float animate-aura-pulse" />
+            <div className="absolute top-[15%] right-[5%] w-[320px] h-[320px] bg-brand-secondary/20 rounded-full blur-3xl -z-10 animate-aura-float animate-aura-pulse [animation-delay:-4s]" />
 
             <div className="max-w-4xl w-full text-center space-y-8">
                 <header className="space-y-4">
+                    <span className="inline-flex items-center gap-2 bg-bg-card/80 border border-white/10 backdrop-blur-sm rounded-full px-4 py-2 text-sm text-text-primary">
+                        <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                        Disponible para proyectos
+                    </span>
                     <h1 className="text-5xl md:text-7xl lg:text-8xl animate-slide-up [animation-fill-mode:both]">
                         Esteban <span className="text-brand-primary">Jurado</span>
                     </h1>
@@ -35,7 +40,7 @@ const Hero = () => {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in [animation-delay:400ms] [animation-fill-mode:both]">
                     <a
                         href="#projects"
-                        className="px-8 py-3 bg-brand-primary text-bg-dark font-bold rounded-lg hover:bg-brand-primary/90 transition-all active:scale-95 shadow-lg shadow-brand-primary/20"
+                        className="px-8 py-3 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-primary/90 transition-all active:scale-95 shadow-lg shadow-brand-primary/20 focus:outline-none focus:ring-2 focus:ring-brand-primary/30"
                     >
                         Ver Proyectos
                     </a>
