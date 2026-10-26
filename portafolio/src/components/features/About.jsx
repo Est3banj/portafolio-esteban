@@ -1,9 +1,15 @@
 const About = () => {
   return (
     <section id="sobre-mi" className="mt-14">
-      <div className="page" data-reveal>
-        <h2 className="label">SOBRE MÍ</h2>
-        <div className="mt-3 space-y-3 text-ink-2">
+      <div className="page">
+        <h2 className="label" data-reveal>
+          SOBRE MÍ
+        </h2>
+        <div
+          className="mt-3 space-y-3 text-ink-2"
+          data-reveal
+          style={{ "--reveal-delay": "50ms" }}
+        >
           <p>
 Soy desarrollador de software y actualmente realizo mi etapa productiva en NTT DATA LATAM, donde fortalezco mis conocimientos trabajando con tecnologías empresariales como Java, Spring Boot y Angular.
           </p>
@@ -25,9 +31,15 @@ Fuera del entorno laboral, desarrollo productos propios y soluciones para client
           </p>
         </div>
 
-        <h2 className="label mt-10">EXPERIENCIA</h2>
+        <h2
+          className="label mt-10"
+          data-reveal
+          style={{ "--reveal-delay": "100ms" }}
+        >
+          EXPERIENCIA
+        </h2>
         <ul className="mt-3 space-y-3">
-          <li>
+          <li data-reveal style={{ "--reveal-delay": "150ms" }}>
             <p>
               ↳ NTT DATA LATAM — DESARROLLADOR DE SOFTWARE (PRÁCTICAS)
             </p>
@@ -39,7 +51,7 @@ Fuera del entorno laboral, desarrollo productos propios y soluciones para client
               desarrollo con Java, Spring Boot y Angular.
             </p>
           </li>
-          <li>
+          <li data-reveal style={{ "--reveal-delay": "200ms" }}>
             <p>↳ FORMACIÓN</p>
             <p className="text-ink-3">
               INGENIERÍA EN SISTEMAS — UNAD, EN CURSO, 2026—
@@ -48,7 +60,7 @@ Fuera del entorno laboral, desarrollo productos propios y soluciones para client
               HOMOLOGA EL TECNÓLOGO ADSO · INICIADO 2026
             </p>
           </li>
-          <li>
+          <li data-reveal style={{ "--reveal-delay": "250ms" }}>
             <p>↳ FORMACIÓN</p>
             <p className="text-ink-3">
               TECNÓLOGO EN ANÁLISIS Y DESARROLLO DE SOFTWARE — SENA, 2026
@@ -56,20 +68,32 @@ Fuera del entorno laboral, desarrollo productos propios y soluciones para client
           </li>
         </ul>
 
-        <h2 className="label mt-10">CERTIFICACIONES</h2>
+        <h2
+          className="label mt-10"
+          data-reveal
+          style={{ "--reveal-delay": "300ms" }}
+        >
+          CERTIFICACIONES
+        </h2>
         <ul className="mt-3 space-y-3">
-          <li>
+          <li data-reveal style={{ "--reveal-delay": "300ms" }}>
             <p className="text-ink-3">↳ OPENAI — CERTIFICACIONES</p>
           </li>
-          <li>
+          <li data-reveal style={{ "--reveal-delay": "300ms" }}>
             <p className="text-ink-3">
               ↳ MONGODB CON NODE.JS — CURSO COMPLEMENTARIO
             </p>
           </li>
         </ul>
 
-        <h2 className="label mt-10">STACK</h2>
-        <p className="mt-3 micro text-ink-3">
+        <h2
+          className="label mt-10"
+          data-reveal
+          style={{ "--reveal-delay": "300ms" }}
+        >
+          STACK
+        </h2>
+        <p className="mt-3 micro text-ink-3" data-reveal style={{ "--reveal-delay": "300ms" }}>
           REACT · TYPESCRIPT · JAVASCRIPT · JAVA · SPRING BOOT · ANGULAR ·
           TAILWIND · VITE · NODE · FIREBASE · MYSQL · AZURE DEVOPS · GOOGLE
           CLOUD · POSTMAN · GIT · GITHUB · VERCEL · AGENTES DE IA

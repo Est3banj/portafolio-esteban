@@ -123,6 +123,14 @@
     animation: hero-in 450ms var(--ease-out) forwards;
   }
 
+  .hero-anim {
+    animation: hero-in 450ms var(--ease-out) both;
+  }
+
+  .hero-anim-delay {
+    animation: hero-in 450ms var(--ease-out) 180ms both;
+  }
+
   .js-reveal [data-reveal] {
     opacity: 0;
     transform: translateY(8px);
@@ -165,6 +173,19 @@
 
   .link-draw:focus-visible::after {
     transform: scaleX(1);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .link-draw,
+    .text-accent {
+      display: inline-block;
+      transition: transform 160ms var(--ease-out);
+    }
+
+    .link-draw:active,
+    .text-accent:active {
+      transform: scale(0.97);
+    }
   }
 
   .arrow {

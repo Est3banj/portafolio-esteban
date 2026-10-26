@@ -9,9 +9,9 @@ const Hero = () => {
           alt="Esteban Jurado"
           width="128"
           height="128"
-          className="h-32 w-32 shrink-0 rounded-[6px] border border-white/10 object-cover"
+          className="hero-anim h-32 w-32 shrink-0 rounded-[6px] border border-white/10 object-cover"
         />
-        <div className="min-w-0">
+        <div className="hero-anim min-w-0">
           <p className="micro text-ink-3">● DISPONIBLE</p>
           <p className="mt-2">DESARROLLADOR DE SOFTWARE</p>
           <p className="text-ink-3">PUTUMAYO, COLOMBIA</p>
@@ -27,7 +27,7 @@ const Hero = () => {
         </span>
       </h1>
 
-      <p className="page mt-3 text-ink-2">
+      <p className="page mt-3 text-ink-2 hero-anim-delay">
         NTT DATA LATAM · PRÁCTICAS EN DESARROLLO · DESDE AGO 2026
         <span aria-hidden="true" className="caret">
           ▍
