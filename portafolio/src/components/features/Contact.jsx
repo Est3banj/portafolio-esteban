@@ -29,19 +29,34 @@ const Contact = () => {
   return (
     <section id="contacto" className="mt-14">
       <div className="page">
-        <h2 className="label">CONTACTO</h2>
-        <p className="mt-2 text-ink-2">Escribime directo. Sin formularios.</p>
+        <h2 className="label" data-reveal>
+          CONTACTO
+        </h2>
+        <p
+          className="mt-2 text-ink-2"
+          data-reveal
+          style={{ "--reveal-delay": "50ms" }}
+        >
+          Escribime directo. Sin formularios.
+        </p>
 
         <ul className="mt-4 grid gap-y-[6px] gap-x-[40px] sm:grid-cols-[280px_280px]">
-          {CONTACT_LINKS.map((item) => (
-            <li key={item.label}>
+          {CONTACT_LINKS.map((item, index) => (
+            <li
+              key={item.label}
+              data-reveal
+              style={{ "--reveal-delay": `${100 + index * 50}ms` }}
+            >
               <a
                 href={item.href}
                 target={item.external ? "_blank" : undefined}
                 rel={item.external ? "noopener noreferrer" : undefined}
                 className="text-accent underline underline-offset-2 break-all"
               >
-                ↳ {item.label} ↗
+                ↳ {item.label}{" "}
+                <span aria-hidden="true" className="arrow">
+                  ↗
+                </span>
               </a>
               <p className="micro text-ink-3 break-all">{item.display}</p>
             </li>

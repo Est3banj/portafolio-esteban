@@ -19,12 +19,20 @@ const Hero = () => {
       </div>
 
       <h1 className="page mt-8 font-sans text-[clamp(40px,12vw,71.73px)] font-light leading-none">
-        Esteban Jurado
+        <span className="hero-word" style={{ animationDelay: "0ms" }}>
+          Esteban
+        </span>{" "}
+        <span className="hero-word" style={{ animationDelay: "90ms" }}>
+          Jurado
+        </span>
       </h1>
 
       <p className="page mt-3 text-ink-2">
         NTT DATA LATAM · DESARROLLADOR DE SOFTWARE (PRÁCTICAS) · DESDE 18 DE
         AGOSTO DE 2026 · REMOTO
+        <span aria-hidden="true" className="caret">
+          ▍
+        </span>
       </p>
     </section>
   );

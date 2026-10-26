@@ -1,7 +1,7 @@
 const About = () => {
   return (
     <section id="sobre-mi" className="mt-14">
-      <div className="page">
+      <div className="page" data-reveal>
         <h2 className="label">SOBRE MÍ</h2>
         <div className="mt-3 space-y-3 text-ink-2">
           <p>

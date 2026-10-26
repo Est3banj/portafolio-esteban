@@ -4,14 +4,24 @@ const Projects = () => {
   return (
     <section id="proyectos" className="mt-14">
       <div className="page">
-        <h2 className="label">PROYECTOS</h2>
-        <p className="mt-2 text-ink-2">
+        <h2 className="label" data-reveal>
+          PROYECTOS
+        </h2>
+        <p
+          className="mt-2 text-ink-2"
+          data-reveal
+          style={{ "--reveal-delay": "50ms" }}
+        >
           Tres productos en producción. Sitio y código abiertos.
         </p>
 
         <div className="mt-6 space-y-8">
-          {projectsData.map((project) => (
-            <article key={project.id}>
+          {projectsData.map((project, index) => (
+            <article
+              key={project.id}
+              data-reveal
+              style={{ "--reveal-delay": `${100 + index * 50}ms` }}
+            >
               <p>
                 <a
                   href={project.link}
@@ -19,7 +29,10 @@ const Projects = () => {
                   rel="noopener noreferrer"
                   className="text-accent underline underline-offset-2"
                 >
-                  ↳ {project.title} ↗
+                  ↳ {project.title}{" "}
+                  <span aria-hidden="true" className="arrow">
+                    ↗
+                  </span>
                 </a>
                 <span className="text-ink-3">
                   {" "}
@@ -42,7 +55,10 @@ const Projects = () => {
                   rel="noopener noreferrer"
                   className="text-accent underline underline-offset-2"
                 >
-                  CÓDIGO ↗
+                  CÓDIGO{" "}
+                  <span aria-hidden="true" className="arrow">
+                    ↗
+                  </span>
                 </a>
               </p>
             </article>
