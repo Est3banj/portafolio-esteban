@@ -22,7 +22,7 @@ const About = () => {
               className="h-40 w-40 rounded-[6px] border border-white/10 object-cover"
             />
             <figcaption className="micro mt-2 text-ink-3">
-              ESTEBAN JURADO · PUTUMAYO, CO
+              FIG. 01
             </figcaption>
           </figure>
           <div className="min-w-0 space-y-3 text-ink-2">
