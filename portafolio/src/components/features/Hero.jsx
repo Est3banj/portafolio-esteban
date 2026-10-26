@@ -9,7 +9,7 @@ const Hero = () => {
           alt="Esteban Jurado"
           width="128"
           height="128"
-          className="h-32 w-32 shrink-0 rounded-[6px] border border-black/10 object-cover"
+          className="h-32 w-32 shrink-0 rounded-[6px] border border-white/10 object-cover"
         />
         <div className="min-w-0">
           <p className="micro text-ink-3">● DISPONIBLE</p>

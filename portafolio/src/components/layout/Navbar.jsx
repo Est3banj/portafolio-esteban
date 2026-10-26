@@ -6,7 +6,7 @@ const NAV_LINKS = [
 
 const Navbar = () => {
   return (
-    <nav className="sticky top-0 z-10 bg-white">
+    <nav className="sticky top-0 z-10 bg-canvas">
       <div className="page flex flex-wrap items-center justify-between gap-x-4 gap-y-1 py-2">
         <a href="#inicio" className="link-draw">
           ESTEBAN.DEV
