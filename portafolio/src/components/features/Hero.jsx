@@ -19,7 +19,7 @@ const Hero = () => {
       </h1>
 
       <p className="page mt-3 text-ink-2 hero-anim-delay">
-        NTT DATA LATAM · PRÁCTICAS EN DESARROLLO · DESDE AGO 2026
+        NTT DATA Europe & Latam · PRÁCTICAS EN DESARROLLO · DESDE AGO 2026
         <span aria-hidden="true" className="caret">
           ▍
         </span>

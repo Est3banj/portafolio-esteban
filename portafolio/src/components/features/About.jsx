@@ -27,7 +27,7 @@ const About = () => {
           </figure>
           <div className="min-w-0 space-y-3 text-ink-2">
             <p>
-Soy desarrollador de software y actualmente realizo mi etapa productiva en NTT DATA LATAM, donde fortalezco mis conocimientos trabajando con tecnologías empresariales como Java, Spring Boot y Angular.
+Soy desarrollador de software y actualmente realizo mi etapa productiva en NTT DATA Europe & Latam, donde fortalezco mis conocimientos trabajando con tecnologías empresariales como Java, Spring Boot y Angular.
             </p>
             <p>
 Fuera del entorno laboral, desarrollo productos propios y soluciones para clientes reales. GIO TECH nació de una necesidad de un negocio de telefonía, mientras que EJ Stream y StreamControl Pro son proyectos propios que he llevado a producción.
@@ -49,7 +49,7 @@ Fuera del entorno laboral, desarrollo productos propios y soluciones para client
         <ul className="mt-3 space-y-3">
           <li data-reveal style={{ "--reveal-delay": "150ms" }}>
             <p>
-              ↳ NTT DATA LATAM — DESARROLLADOR DE SOFTWARE (PRÁCTICAS)
+              ↳ NTT DATA Europe & Latam — DESARROLLADOR DE SOFTWARE (PRÁCTICAS)
             </p>
             <p className="text-ink-3">
               DESDE 18 DE AGOSTO DE 2026 · REMOTO
