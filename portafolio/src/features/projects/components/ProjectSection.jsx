@@ -1,35 +1,51 @@
-import React from "react";
 import { projectsData } from "../data/projects";
-import ProjectCard from "./ProjectCard";
 
-/**
- * Projects Section Component
- *
- * Orchestrates the display of the professional portfolio work.
- * Filters and maps project data to ProjectCard components.
- *
- * @returns {JSX.Element} The rendered Projects section.
- */
 const Projects = () => {
   return (
-    <section id="projects" className="py-24 px-6">
-      <div className="max-w-7xl mx-auto space-y-16">
-        <header className="space-y-4 max-w-2xl">
-          <h2 className="text-4xl md:text-5xl tracking-tight">
-            Proyectos <span className="text-brand-primary">Destacados</span>
-          </h2>
-          <p className="text-text-secondary text-lg">
-            Proyectos desarrollados para negocios reales, enfocados en la
-            creación de plataformas web modernas que integran soluciones de
-            gestión, exhibición de servicios y optimización de ventas,
-            ofreciendo siempre una experiencia clara y profesional para los
-            usuarios.
-          </p>
-        </header>
+    <section id="proyectos" className="mt-14">
+      <div className="page">
+        <h2 className="label">PROYECTOS</h2>
+        <p className="mt-2 text-ink-2">
+          Tres productos en producción. Sitio y código abiertos.
+        </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="mt-6 space-y-8">
           {projectsData.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+            <article key={project.id}>
+              <p>
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-accent underline underline-offset-2"
+                >
+                  ↳ {project.title} ↗
+                </a>
+                <span className="text-ink-3">
+                  {" "}
+                  · {project.category.toUpperCase()}
+                </span>
+              </p>
+              <p className="mt-1 text-ink-2">{project.description}</p>
+              <p className="mt-1 micro text-ink-3 uppercase">
+                {project.techs.join(" · ")}
+              </p>
+              {project.demoCredentials && (
+                <p className="mt-1 micro text-ink-3">
+                  DEMO: {project.demoCredentials}
+                </p>
+              )}
+              <p className="mt-1">
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-accent underline underline-offset-2"
+                >
+                  CÓDIGO ↗
+                </a>
+              </p>
+            </article>
           ))}
         </div>
       </div>
