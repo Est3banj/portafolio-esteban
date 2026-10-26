@@ -1,3 +1,5 @@
+import foto from "../esteban1.png";
+
 const About = () => {
   return (
     <section id="sobre-mi" className="mt-14">
@@ -6,29 +8,43 @@ const About = () => {
           SOBRE MÍ
         </h2>
         <div
-          className="mt-3 space-y-3 text-ink-2"
+          className="mt-3 flex flex-col gap-4 sm:flex-row sm:gap-6"
           data-reveal
           style={{ "--reveal-delay": "50ms" }}
         >
-          <p>
+          <figure className="shrink-0 self-start">
+            <img
+              src={foto}
+              alt="Esteban Jurado"
+              width="160"
+              height="160"
+              className="h-40 w-40 rounded-[6px] border border-white/10 object-cover"
+            />
+            <figcaption className="micro mt-2 text-ink-3">
+              ESTEBAN JURADO · PUTUMAYO, CO
+            </figcaption>
+          </figure>
+          <div className="space-y-3 text-ink-2">
+            <p>
 Soy desarrollador de software y actualmente realizo mi etapa productiva en NTT DATA LATAM, donde fortalezco mis conocimientos trabajando con tecnologías empresariales como Java, Spring Boot y Angular.
-          </p>
-          <p>
+            </p>
+            <p>
 Fuera del entorno laboral, desarrollo productos propios y soluciones para clientes reales. GIO TECH nació de una necesidad de un negocio de telefonía, mientras que EJ Stream y StreamControl Pro son proyectos propios que he llevado a producción.
-          </p>
-          <p>
-            Mi enfoque va más allá de escribir código: me interesa comprender
-            los problemas, tomar decisiones técnicas fundamentadas y construir
-            soluciones que funcionen en escenarios reales. También integro
-            herramientas y agentes de inteligencia artificial en mi flujo de
-            trabajo para optimizar el desarrollo, sin delegar el criterio
-            técnico.
-          </p>
-          <p>
-            Actualmente, sigo ampliando mis conocimientos en arquitectura de
-            software, desarrollo backend e inteligencia artificial, con el
-            objetivo de construir sistemas cada vez más sólidos y útiles.
-          </p>
+            </p>
+            <p>
+              Mi enfoque va más allá de escribir código: me interesa comprender
+              los problemas, tomar decisiones técnicas fundamentadas y construir
+              soluciones que funcionen en escenarios reales. También integro
+              herramientas y agentes de inteligencia artificial en mi flujo de
+              trabajo para optimizar el desarrollo, sin delegar el criterio
+              técnico.
+            </p>
+            <p>
+              Actualmente, sigo ampliando mis conocimientos en arquitectura de
+              software, desarrollo backend e inteligencia artificial, con el
+              objetivo de construir sistemas cada vez más sólidos y útiles.
+            </p>
+          </div>
         </div>
 
         <h2

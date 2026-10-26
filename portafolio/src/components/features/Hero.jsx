@@ -1,17 +1,8 @@
-import foto from "../esteban1.png";
-
 const Hero = () => {
   return (
     <section id="inicio" className="pt-6">
-      <div className="page flex items-start gap-4">
-        <img
-          src={foto}
-          alt="Esteban Jurado"
-          width="128"
-          height="128"
-          className="hero-anim h-32 w-32 shrink-0 rounded-[6px] border border-white/10 object-cover"
-        />
-        <div className="hero-anim min-w-0">
+      <div className="page">
+        <div className="hero-anim">
           <p className="micro text-ink-3">● DISPONIBLE</p>
           <p className="mt-2">DESARROLLADOR DE SOFTWARE</p>
           <p className="text-ink-3">PUTUMAYO, COLOMBIA</p>
