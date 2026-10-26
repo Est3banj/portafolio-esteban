@@ -1,3 +1,8 @@
+import { useState } from "react";
+
+// TODO(connect): Formspree endpoint — owner will provide
+const FORM_ENDPOINT = "";
+
 const CONTACT_LINKS = [
   {
     label: "EMAIL",
@@ -26,6 +31,45 @@ const CONTACT_LINKS = [
 ];
 
 const Contact = () => {
+  const [status, setStatus] = useState("idle");
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    if (form.company.value) return;
+
+    const data = {
+      nombre: form.nombre.value.trim(),
+      email: form.email.value.trim(),
+      mensaje: form.mensaje.value.trim(),
+    };
+
+    if (!FORM_ENDPOINT) {
+      const subject = `Mensaje desde tu portafolio — ${data.nombre}`;
+      const body = `${data.mensaje}\n\n— ${data.nombre} (${data.email})`;
+      window.location.href = `mailto:estebanjurado2005@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      setStatus("listo");
+      return;
+    }
+
+    setStatus("enviando");
+    try {
+      const res = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      form.reset();
+      setStatus("listo");
+    } catch {
+      setStatus("error");
+    }
+  };
+
   return (
     <section id="contacto" className="mt-14">
       <div className="page">
@@ -37,7 +81,7 @@ const Contact = () => {
           data-reveal
           style={{ "--reveal-delay": "50ms" }}
         >
-          Escribime directo. Sin formularios.
+          Escribime directo, o déjame un mensaje abajo.
         </p>
 
         <ul className="mt-4 grid gap-y-[6px] gap-x-[40px] sm:grid-cols-[280px_280px]">
@@ -62,6 +106,88 @@ const Contact = () => {
             </li>
           ))}
         </ul>
+      </div>
+
+      <div
+        className="page-wide mt-8"
+        data-reveal
+        style={{ "--reveal-delay": "300ms" }}
+      >
+        <form onSubmit={handleSubmit} className="relative grid gap-5">
+          <input
+            type="text"
+            name="company"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            className="hp-field"
+          />
+
+          <div className="grid gap-1.5">
+            <label htmlFor="nombre" className="label micro text-ink-3">
+              NOMBRE
+            </label>
+            <input
+              id="nombre"
+              name="nombre"
+              type="text"
+              required
+              minLength={2}
+              autoComplete="name"
+              className="field"
+            />
+          </div>
+
+          <div className="grid gap-1.5">
+            <label htmlFor="email" className="label micro text-ink-3">
+              EMAIL
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              autoComplete="email"
+              className="field"
+            />
+          </div>
+
+          <div className="grid gap-1.5">
+            <label htmlFor="mensaje" className="label micro text-ink-3">
+              MENSAJE
+            </label>
+            <textarea
+              id="mensaje"
+              name="mensaje"
+              required
+              minLength={10}
+              rows={5}
+              className="field resize-y"
+            />
+          </div>
+
+          <div className="mt-1 flex items-center gap-4">
+            <button type="submit" className="btn-send">
+              ENVIAR ↗
+            </button>
+          </div>
+
+          <p role="status" aria-live="polite" className="micro text-ink-3">
+            {status === "enviando" && "ENVIANDO…"}
+            {status === "listo" && "LISTO ✓ — ABRE TU APP DE EMAIL"}
+            {status === "error" && (
+              <>
+                ERROR — escribime a{" "}
+                <a
+                  href="mailto:estebanjurado2005@gmail.com"
+                  className="text-accent underline underline-offset-2"
+                >
+                  estebanjurado2005@gmail.com
+                </a>
+              </>
+            )}
+          </p>
+        </form>
       </div>
     </section>
   );
