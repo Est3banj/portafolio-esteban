@@ -5,23 +5,30 @@ const About = () => {
         <h2 className="label">SOBRE MÍ</h2>
         <div className="mt-3 space-y-3 text-ink-2">
           <p>
-            Desarrollador Full Stack en Putumayo, Colombia. En NTT DATA LATAM
-            trabajo con stacks empresariales — Java, Spring Boot, Angular —
-            participando en migraciones y debug de sistemas en producción. Fuera
-            de ahí construyo productos propios y para clientes.
+            Soy desarrollador Full Stack y trabajo en NTT DATA LATAM con
+            tecnologías empresariales como Java, Spring Boot y Angular,
+            participando en migraciones y depuración de sistemas en producción.
+            En paralelo, desarrollo productos propios y soluciones para clientes
+            reales.
           </p>
           <p>
-            GIO TECH fue desarrollado para un cliente real — un negocio de
-            telefonía —; EJ Store y StreamControl Pro son míos y viven en
-            producción. Donde entra la IA, entra con criterio: dirijo agentes de
-            IA en mi flujo de trabajo —las decisiones de arquitectura siguen
-            siendo mías— con certificaciones de OpenAI y manejo profesional de
-            herramientas internas de la empresa.
+            GIO TECH nació de una necesidad real de un negocio de telefonía. EJ
+            Store y StreamControl Pro son productos propios que he llevado a
+            producción. Cada proyecto me permite explorar nuevas soluciones,
+            enfrentar desafíos técnicos y convertir ideas en software funcional.
           </p>
           <p>
-            Empecé por curiosidad: quería entender cómo funcionan las
-            aplicaciones por dentro. La misma curiosidad me llevó al backend, y
-            ahora a la IA.
+            Mi enfoque va más allá de escribir código: me interesa comprender
+            los problemas, tomar decisiones técnicas fundamentadas y construir
+            soluciones que funcionen en escenarios reales. También integro
+            herramientas y agentes de inteligencia artificial en mi flujo de
+            trabajo para optimizar el desarrollo, sin delegar el criterio
+            técnico.
+          </p>
+          <p>
+            Actualmente, sigo ampliando mis conocimientos en arquitectura de
+            software, desarrollo backend e inteligencia artificial, con el
+            objetivo de construir sistemas cada vez más sólidos y útiles.
           </p>
         </div>
 
