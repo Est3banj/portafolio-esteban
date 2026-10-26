@@ -25,6 +25,16 @@ const AUDIO_WAIT_MS = 50;
 const GREETING = "¡Hola! Bienvenido a mi espacio";
 const TYPE_MS = 35;
 const SECTION_DELAY_MS = 600;
+const EMBER_MAX = 14;
+const EMBER_COLORS = ["#ff4d4d", "#ff8a3d", "#ffd24a", "#dc2626"];
+const EMBER_WEIGHTS = [0.25, 0.35, 0.25, 0.15];
+const EMBER_IDLE_LO = 450;
+const EMBER_IDLE_HI = 750;
+const EMBER_IDLE_MAX = 7;
+const EMBER_WALK_LO = 110;
+const EMBER_WALK_HI = 180;
+const EMBER_WALK_MAX = 14;
+const EMBER_WALK_BURST = 3;
 
 const withTimeout = (promise, ms) =>
   Promise.race([promise, new Promise((resolve) => setTimeout(resolve, ms))]);
@@ -122,6 +132,90 @@ export default function PixelBuddy() {
       reduced: false,
       loaded: false,
       dirty: true,
+      cssW: 96,
+      dpr: 1,
+      aliveCount: 0,
+      nextEmit: 0,
+      prevNow: 0,
+    };
+
+    const pool = Array.from({ length: EMBER_MAX }, () => ({
+      alive: false,
+      baseX: 0,
+      y: 0,
+      amp: 0,
+      phase: 0,
+      freq: 0,
+      vy: 0,
+      age: 0,
+      maxAge: 1,
+      size: 3,
+      color: EMBER_COLORS[0],
+    }));
+
+    const clearPool = () => {
+      for (const p of pool) p.alive = false;
+      S.aliveCount = 0;
+    };
+
+    const pickEmberColor = () => {
+      let r = Math.random();
+      for (let i = 0; i < EMBER_COLORS.length; i += 1) {
+        r -= EMBER_WEIGHTS[i];
+        if (r <= 0) return EMBER_COLORS[i];
+      }
+      return EMBER_COLORS[0];
+    };
+
+    const spawnEmbers = (count) => {
+      if (S.reduced || !S.loaded) return;
+      const cssW = S.cssW;
+      for (let n = 0; n < count; n += 1) {
+        let p = null;
+        for (let i = 0; i < EMBER_MAX; i += 1) {
+          if (!pool[i].alive) {
+            p = pool[i];
+            break;
+          }
+        }
+        if (!p) return;
+        p.alive = true;
+        p.baseX = (0.2 + Math.random() * 0.6) * cssW;
+        p.y = (0.45 + Math.random() * 0.3) * cssW;
+        p.amp = 2 + Math.random() * 2;
+        p.phase = Math.random() * Math.PI * 2;
+        p.freq = 2 + Math.random() * 2;
+        p.vy = -(12 + Math.random() * 8);
+        p.age = 0;
+        p.maxAge = 0.7 + Math.random() * 0.4;
+        p.size = cssW < 768 ? 2 + Math.random() : 2 + Math.random() * 2;
+        p.color = pickEmberColor();
+      }
+    };
+
+    const scheduleEmit = (now) => {
+      const walking = S.state === "walk";
+      const lo = walking ? EMBER_WALK_LO : EMBER_IDLE_LO;
+      const hi = walking ? EMBER_WALK_HI : EMBER_IDLE_HI;
+      S.nextEmit = now + lo + Math.random() * (hi - lo);
+    };
+
+    const updateEmbers = (dt) => {
+      for (const p of pool) {
+        if (!p.alive) continue;
+        p.age += dt;
+        if (p.age >= p.maxAge) {
+          p.alive = false;
+          continue;
+        }
+        p.y += p.vy * dt;
+      }
+    };
+
+    const countAlive = () => {
+      let n = 0;
+      for (const p of pool) if (p.alive) n += 1;
+      return n;
     };
 
     const img = new Image();
@@ -130,6 +224,8 @@ export default function PixelBuddy() {
     const layout = () => {
       const cssW = window.innerWidth < 768 ? 64 : 96;
       const dpr = Math.max(1, window.devicePixelRatio || 1);
+      S.cssW = cssW;
+      S.dpr = dpr;
       canvas.width = cssW * dpr;
       canvas.height = cssW * dpr;
       canvas.style.width = `${cssW}px`;
@@ -138,6 +234,8 @@ export default function PixelBuddy() {
       const rect = canvas.getBoundingClientRect();
       S.cx = rect.left + rect.width / 2;
       S.nextAt = performance.now() + 1000 / FPS.idle;
+      clearPool();
+      S.nextEmit = performance.now() + EMBER_IDLE_LO;
       S.dirty = true;
     };
 
@@ -161,12 +259,34 @@ export default function PixelBuddy() {
         size,
         size,
       );
+      if (S.aliveCount > 0) {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        const dpr = S.dpr;
+        for (const p of pool) {
+          if (!p.alive) continue;
+          const t = p.age / p.maxAge;
+          const alpha = 0.9 * Math.sin(Math.PI * t);
+          if (alpha <= 0) continue;
+          const x = Math.round(
+            (p.baseX + Math.sin(p.age * p.freq + p.phase) * p.amp) * dpr,
+          );
+          const y = Math.round(p.y * dpr);
+          const cssSize = t > 0.65 ? Math.max(1, p.size - 1) : p.size;
+          const px = Math.max(1, Math.round(cssSize * dpr));
+          ctx.globalAlpha = alpha;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(x, y, px, px);
+        }
+        ctx.globalAlpha = 1;
+      }
       S.dirty = false;
     };
 
     const tick = (now) => {
       raf = requestAnimationFrame(tick);
       if (!S.loaded || document.hidden) return;
+
+      const hadParticles = S.aliveCount > 0;
 
       if (!S.reduced) {
         if (
@@ -193,9 +313,23 @@ export default function PixelBuddy() {
           }
           S.dirty = true;
         }
+
+        const dt = S.prevNow
+          ? Math.min((now - S.prevNow) / 1000, 0.05)
+          : 0;
+        S.prevNow = now;
+        if (hadParticles) updateEmbers(dt);
+
+        const walking = S.state === "walk";
+        const cap = walking ? EMBER_WALK_MAX : EMBER_IDLE_MAX;
+        if (now >= S.nextEmit && countAlive() < cap) {
+          spawnEmbers(1);
+          scheduleEmit(now);
+        }
+        S.aliveCount = countAlive();
       }
 
-      if (S.dirty) draw();
+      if (S.dirty || hadParticles || S.aliveCount > 0) draw();
     };
 
     img.onload = () => {
@@ -226,6 +360,8 @@ export default function PixelBuddy() {
         if (S.state === "idle") {
           S.state = "walk";
           S.dirty = true;
+          spawnEmbers(EMBER_WALK_BURST);
+          scheduleEmit(now);
         }
       }
     };
@@ -240,6 +376,8 @@ export default function PixelBuddy() {
       if (S.state === "idle") {
         S.state = "walk";
         S.dirty = true;
+        spawnEmbers(EMBER_WALK_BURST);
+        scheduleEmit(now);
       }
     };
 
@@ -250,6 +388,7 @@ export default function PixelBuddy() {
         S.state = "idle";
         S.frame = 0;
         S.facing = 1;
+        clearPool();
       }
       S.dirty = true;
     };
@@ -259,17 +398,23 @@ export default function PixelBuddy() {
       if (document.hidden) {
         cancelAnimationFrame(raf);
         raf = 0;
+        clearPool();
       } else if (!raf) {
+        S.prevNow = 0;
         S.nextAt = performance.now() + 1000 / FPS[S.state];
+        S.nextEmit = performance.now() + EMBER_IDLE_LO;
         raf = requestAnimationFrame(tick);
       }
     };
 
     waveRef.current = () => {
       if (S.reduced) return;
+      const now = performance.now();
       S.state = "wave";
       S.frame = 0;
-      S.nextAt = performance.now() + 1000 / FPS.wave;
+      S.nextAt = now + 1000 / FPS.wave;
+      spawnEmbers(4 + Math.floor(Math.random() * 2));
+      scheduleEmit(now);
       S.dirty = true;
     };
 
@@ -284,6 +429,7 @@ export default function PixelBuddy() {
     return () => {
       cancelAnimationFrame(raf);
       raf = 0;
+      clearPool();
       waveRef.current = null;
       window.removeEventListener("resize", layout);
       window.removeEventListener("mousemove", onMove);
