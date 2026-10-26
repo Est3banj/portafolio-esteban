@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import buddySheet from "../assets/pixel-buddy.png";
-import { playBloop } from "../lib/sfx";
+import { playBloop, playKeystroke } from "../lib/sfx";
 
 const FRAME = 32;
 const FPS = { idle: 6, walk: 10, wave: 8 };
@@ -20,7 +20,8 @@ const BUBBLE_EDGE_GAP = 8;
 const BUBBLE_TOP_GAP = 14;
 const BUBBLE_TOP_MIN = 8;
 const GREET_MS = 1400;
-const GREET_KEY = "buddy-greeted";
+const GREETING = "¡Hola! Bienvenido a mi espacio";
+const TYPE_MS = 35;
 const SECTION_DELAY_MS = 600;
 
 const SECTION_IDS = ["inicio", "sobre-mi", "proyectos", "contacto"];
@@ -87,9 +88,12 @@ export default function PixelBuddy() {
   const bubbleTimer = useRef(0);
   const greetTimer = useRef(0);
   const autoTimer = useRef(0);
+  const typeTimer = useRef(0);
   const activeSectionId = useRef("inicio");
   const bubbleRef = useRef(null);
   const [phrase, setPhrase] = useState("");
+  const [typed, setTyped] = useState("");
+  const [typing, setTyping] = useState(false);
   const [flipped, setFlipped] = useState(false);
   const [beside, setBeside] = useState(false);
 
@@ -286,32 +290,62 @@ export default function PixelBuddy() {
       clearTimeout(bubbleTimer.current);
       clearTimeout(greetTimer.current);
       clearTimeout(autoTimer.current);
+      clearInterval(typeTimer.current);
     },
     [],
   );
 
+  const stopTyping = useCallback(() => {
+    clearInterval(typeTimer.current);
+    typeTimer.current = 0;
+  }, []);
+
+  const showMessage = useCallback(
+    (text, { keystrokes = false } = {}) => {
+      stopTyping();
+      clearTimeout(bubbleTimer.current);
+      setPhrase(text);
+      const startHide = () => {
+        bubbleTimer.current = setTimeout(() => {
+          setPhrase("");
+          setTyped("");
+          setTyping(false);
+        }, BUBBLE_MS);
+      };
+      const reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      if (!text || reduced) {
+        setTyped(text);
+        setTyping(false);
+        if (text) startHide();
+        return;
+      }
+      setTyped("");
+      setTyping(true);
+      let i = 0;
+      typeTimer.current = setInterval(() => {
+        i += 1;
+        setTyped(text.slice(0, i));
+        if (keystrokes) playKeystroke();
+        if (i >= text.length) {
+          stopTyping();
+          setTyping(false);
+          startHide();
+        }
+      }, TYPE_MS);
+    },
+    [stopTyping],
+  );
+
   useEffect(() => {
-    let greeted = false;
-    try {
-      greeted = sessionStorage.getItem(GREET_KEY) === "1";
-    } catch {
-      /* storage unavailable — greet only this mount */
-    }
-    if (greeted) return undefined;
-    try {
-      sessionStorage.setItem(GREET_KEY, "1");
-    } catch {
-      /* storage unavailable — greet only this mount */
-    }
     markSectionShown("inicio");
     greetTimer.current = setTimeout(() => {
-      setPhrase(SECTION_MESSAGES.inicio.auto);
-      clearTimeout(bubbleTimer.current);
-      bubbleTimer.current = setTimeout(() => setPhrase(""), BUBBLE_MS);
       waveRef.current?.();
+      showMessage(GREETING, { keystrokes: true });
     }, GREET_MS);
     return () => clearTimeout(greetTimer.current);
-  }, []);
+  }, [showMessage]);
 
   useEffect(() => {
     if (typeof IntersectionObserver === "undefined") return undefined;
@@ -333,9 +367,7 @@ export default function PixelBuddy() {
         autoTimer.current = setTimeout(() => {
           markSectionShown(next);
           clearTimeout(greetTimer.current);
-          clearTimeout(bubbleTimer.current);
-          setPhrase(sec.auto);
-          bubbleTimer.current = setTimeout(() => setPhrase(""), BUBBLE_MS);
+          showMessage(sec.auto);
         }, SECTION_DELAY_MS);
       },
       { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
@@ -345,7 +377,7 @@ export default function PixelBuddy() {
       io.disconnect();
       clearTimeout(autoTimer.current);
     };
-  }, []);
+  }, [showMessage]);
 
   useLayoutEffect(() => {
     if (!phrase) return undefined;
@@ -364,7 +396,7 @@ export default function PixelBuddy() {
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
-  }, [phrase]);
+  }, [phrase, typed]);
 
   const handleClick = useCallback(() => {
     clearTimeout(greetTimer.current);
@@ -375,11 +407,9 @@ export default function PixelBuddy() {
     const pool = sec ? sec.clicks : FALLBACK_PHRASES;
     const key = sec ? id : "__fallback";
     clickIdx.current[key] = ((clickIdx.current[key] ?? -1) + 1) % pool.length;
-    setPhrase(pool[clickIdx.current[key]]);
-    clearTimeout(bubbleTimer.current);
-    bubbleTimer.current = setTimeout(() => setPhrase(""), BUBBLE_MS);
+    showMessage(pool[clickIdx.current[key]]);
     waveRef.current?.();
-  }, []);
+  }, [showMessage]);
 
   return (
     <div className="buddy-dock">
@@ -396,7 +426,11 @@ export default function PixelBuddy() {
                 : "buddy-bubble"
           }
         >
-          {phrase}
+          <span className="sr-only">{phrase}</span>
+          <span aria-hidden="true">
+            {typed}
+            {typing ? <span className="caret">▍</span> : null}
+          </span>
         </div>
       ) : null}
       <button

@@ -66,3 +66,40 @@ export const playBloop = () => {
     /* audio is decorative — never break the UI */
   }
 };
+
+export const playKeystroke = () => {
+  if (muted) return;
+  try {
+    const ac = ensureCtx();
+    /* suspended (no gesture yet) — skip silently, never block the UI */
+    if (!ac || ac.state !== "running") return;
+    const t0 = ac.currentTime;
+    const osc = ac.createOscillator();
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(3400, t0);
+    const gain = ac.createGain();
+    gain.gain.setValueAtTime(0.0001, t0);
+    gain.gain.linearRampToValueAtTime(0.07, t0 + 0.005);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.035);
+    osc.connect(gain);
+    gain.connect(ac.destination);
+    osc.start(t0);
+    osc.stop(t0 + 0.05);
+  } catch {
+    /* audio is decorative — never break the UI */
+  }
+};
+
+/* autoplay-policy unlock: one-time gesture listener, kept for document lifetime */
+const unlockAudio = () => {
+  document.removeEventListener("pointerdown", unlockAudio);
+  document.removeEventListener("keydown", unlockAudio);
+  try {
+    ensureCtx();
+  } catch {
+    /* audio is decorative — never break the UI */
+  }
+};
+
+document.addEventListener("pointerdown", unlockAudio, { passive: true });
+document.addEventListener("keydown", unlockAudio, { passive: true });
