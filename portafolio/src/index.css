@@ -278,6 +278,80 @@
     }
   }
 
+  .buddy-dock {
+    position: fixed;
+    right: 16px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 40;
+    pointer-events: none;
+    line-height: 0;
+  }
+
+  .buddy-btn {
+    display: block;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    pointer-events: auto;
+    line-height: 0;
+  }
+
+  .buddy-canvas {
+    display: block;
+    image-rendering: pixelated;
+  }
+
+  .buddy-bubble {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 12px);
+    transform: translateX(-50%);
+    padding: 6px 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.35;
+    white-space: nowrap;
+    color: var(--color-ink);
+    background: var(--color-canvas);
+    border: 1px solid rgb(255 255 255 / 0.25);
+    border-radius: 6px;
+    pointer-events: none;
+    animation: buddy-bubble-in 200ms var(--ease-out) both;
+  }
+
+  .buddy-bubble::before,
+  .buddy-bubble::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+  }
+
+  .buddy-bubble::before {
+    margin-top: -1px;
+    border-top: 6px solid rgb(255 255 255 / 0.25);
+  }
+
+  .buddy-bubble::after {
+    border-top: 6px solid var(--color-canvas);
+  }
+
+  @keyframes buddy-bubble-in {
+    from {
+      opacity: 0;
+      transform: translate(-50%, 4px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+
   @keyframes caret-blink {
     50% {
       opacity: 0;
