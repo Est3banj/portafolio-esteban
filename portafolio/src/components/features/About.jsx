@@ -5,17 +5,10 @@ const About = () => {
         <h2 className="label">SOBRE MÍ</h2>
         <div className="mt-3 space-y-3 text-ink-2">
           <p>
-            Soy desarrollador Full Stack y trabajo en NTT DATA LATAM con
-            tecnologías empresariales como Java, Spring Boot y Angular,
-            participando en migraciones y depuración de sistemas en producción.
-            En paralelo, desarrollo productos propios y soluciones para clientes
-            reales.
+Soy desarrollador de software y actualmente realizo mi etapa productiva en NTT DATA LATAM, donde fortalezco mis conocimientos trabajando con tecnologías empresariales como Java, Spring Boot y Angular.
           </p>
           <p>
-            GIO TECH nació de una necesidad real de un negocio de telefonía. EJ
-            Store y StreamControl Pro son productos propios que he llevado a
-            producción. Cada proyecto me permite explorar nuevas soluciones,
-            enfrentar desafíos técnicos y convertir ideas en software funcional.
+Fuera del entorno laboral, desarrollo productos propios y soluciones para clientes reales. GIO TECH nació de una necesidad de un negocio de telefonía, mientras que EJ Stream y StreamControl Pro son proyectos propios que he llevado a producción.
           </p>
           <p>
             Mi enfoque va más allá de escribir código: me interesa comprender

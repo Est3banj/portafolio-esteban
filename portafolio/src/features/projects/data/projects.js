@@ -33,10 +33,10 @@ export const projectsData = [
     },
     {
         id: 'ejstore-multitenant',
-        title: 'EJ Store Platform',
+        title: 'EJ Stream Platform',
         description: 'Plataforma multi-tenant para e-commerce de servicios digitales. Permite desplegar múltiples tiendas independientes con personalización dinámica de marca (UI/UX), pasarelas de contacto personalizadas y aislamiento de datos mediante Firebase Security Rules.',
         techs: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Firebase', 'Firebase Data Connect', 'Cloud Functions', 'Firebase Security Rules', 'React Router', 'Zustand', 'TanStack Query', 'Vitest'],
-        link: 'https://ejstore-web.web.app/?v=ej',
+        link: 'https://ejstreaming.shop/',
         github: 'https://github.com/Est3banj/ejstore-Multi-Tenant',
         category: 'Arquitectura SaaS / E-commerce'
     }

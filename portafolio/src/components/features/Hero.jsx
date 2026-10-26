@@ -13,7 +13,7 @@ const Hero = () => {
         />
         <div className="min-w-0">
           <p className="micro text-ink-3">● DISPONIBLE</p>
-          <p className="mt-2">DESARROLLADOR FULL STACK</p>
+          <p className="mt-2">DESARROLLADOR DE SOFTWARE</p>
           <p className="text-ink-3">PUTUMAYO, COLOMBIA</p>
         </div>
       </div>
