@@ -7,9 +7,9 @@ const Hero = () => {
         <img
           src={foto}
           alt="Esteban Jurado"
-          width="80"
-          height="80"
-          className="h-20 w-20 shrink-0 rounded-[6px] object-cover"
+          width="128"
+          height="128"
+          className="h-32 w-32 shrink-0 rounded-[6px] border border-black/10 object-cover"
         />
         <div className="min-w-0">
           <p className="micro text-ink-3">● DISPONIBLE</p>
@@ -28,8 +28,7 @@ const Hero = () => {
       </h1>
 
       <p className="page mt-3 text-ink-2">
-        NTT DATA LATAM · DESARROLLADOR DE SOFTWARE (PRÁCTICAS) · DESDE 18 DE
-        AGOSTO DE 2026 · REMOTO
+        NTT DATA LATAM · PRÁCTICAS EN DESARROLLO · DESDE AGO 2026
         <span aria-hidden="true" className="caret">
           ▍
         </span>
