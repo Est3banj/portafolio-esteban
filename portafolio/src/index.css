@@ -30,7 +30,7 @@
     font-weight: 500;
     line-height: 1.35;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    overflow-wrap: break-word;
   }
 
   ::selection {
@@ -305,20 +305,43 @@
   .buddy-bubble {
     position: absolute;
     left: 50%;
+    right: auto;
     bottom: calc(100% + 12px);
     transform: translateX(-50%);
+    max-width: min(220px, calc(100vw - 120px));
     padding: 6px 8px;
     font-family: var(--font-mono);
     font-size: 12px;
     font-weight: 500;
     line-height: 1.35;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
     color: var(--color-ink);
     background: var(--color-canvas);
     border: 1px solid rgb(255 255 255 / 0.25);
     border-radius: 6px;
     pointer-events: none;
     animation: buddy-bubble-in 200ms var(--ease-out) both;
+  }
+
+  .buddy-bubble.is-flipped {
+    left: auto;
+    right: 0;
+    transform: none;
+    animation-name: buddy-bubble-in-flip;
+  }
+
+  .buddy-bubble.is-flipped::before,
+  .buddy-bubble.is-flipped::after {
+    left: auto;
+    right: 32px;
+    transform: translateX(50%);
+  }
+
+  @media (width >= 768px) {
+    .buddy-bubble.is-flipped::before,
+    .buddy-bubble.is-flipped::after {
+      right: 48px;
+    }
   }
 
   .buddy-bubble::before,
@@ -349,6 +372,17 @@
     to {
       opacity: 1;
       transform: translate(-50%, 0);
+    }
+  }
+
+  @keyframes buddy-bubble-in-flip {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
     }
   }
 

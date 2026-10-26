@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import buddySheet from "../assets/pixel-buddy.png";
 import { playBloop } from "../lib/sfx";
 
@@ -10,12 +16,15 @@ const SCROLL_IDLE_MS = 400;
 const BURST_MS = 260;
 const BURST_DIST = 120;
 const BUBBLE_MS = 2800;
+const BUBBLE_EDGE_GAP = 8;
 
 const PHRASES = [
-  "¿Hablamos?",
-  "Dale, revisá los proyectos ↗",
-  "Escribime ↗",
-  "Estoy vivo, ¿viste?",
+  "Scrolleá, yo te sigo",
+  "¿Viste los proyectos?",
+  "Tocá y escuchame *bip*",
+  "Escríbime, no muerdo",
+  "Puro píxel, cero plantilla",
+  "¿Hablamos de tu idea?",
 ];
 
 export default function PixelBuddy() {
@@ -23,7 +32,9 @@ export default function PixelBuddy() {
   const waveRef = useRef(null);
   const phraseIdx = useRef(-1);
   const bubbleTimer = useRef(0);
+  const bubbleRef = useRef(null);
   const [phrase, setPhrase] = useState("");
+  const [flipped, setFlipped] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -215,6 +226,23 @@ export default function PixelBuddy() {
 
   useEffect(() => () => clearTimeout(bubbleTimer.current), []);
 
+  useLayoutEffect(() => {
+    if (!phrase) return undefined;
+    const el = bubbleRef.current;
+    if (!el) return undefined;
+    const measure = () => {
+      const dock = el.parentElement;
+      if (!dock) return;
+      const dockRect = dock.getBoundingClientRect();
+      const centeredRight =
+        dockRect.left + dockRect.width / 2 + el.offsetWidth / 2;
+      setFlipped(centeredRight > window.innerWidth - BUBBLE_EDGE_GAP);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [phrase]);
+
   const handleClick = useCallback(() => {
     playBloop();
     phraseIdx.current = (phraseIdx.current + 1) % PHRASES.length;
@@ -227,7 +255,12 @@ export default function PixelBuddy() {
   return (
     <div className="buddy-dock">
       {phrase ? (
-        <div role="status" aria-live="polite" className="buddy-bubble">
+        <div
+          ref={bubbleRef}
+          role="status"
+          aria-live="polite"
+          className={flipped ? "buddy-bubble is-flipped" : "buddy-bubble"}
+        >
           {phrase}
         </div>
       ) : null}

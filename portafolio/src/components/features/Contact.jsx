@@ -84,7 +84,7 @@ const Contact = () => {
           Escribime directo, o déjame un mensaje abajo.
         </p>
 
-        <ul className="mt-4 grid gap-y-[6px] gap-x-[40px] sm:grid-cols-[280px_280px]">
+        <ul className="mt-4 grid gap-y-[6px] gap-x-[40px] sm:grid-cols-2">
           {CONTACT_LINKS.map((item, index) => (
             <li
               key={item.label}
@@ -180,7 +180,7 @@ const Contact = () => {
                 ERROR — escribime a{" "}
                 <a
                   href="mailto:estebanjurado2005@gmail.com"
-                  className="text-accent underline underline-offset-2"
+                  className="text-accent underline underline-offset-2 break-all"
                 >
                   estebanjurado2005@gmail.com
                 </a>

@@ -24,7 +24,7 @@ const About = () => {
               ESTEBAN JURADO · PUTUMAYO, CO
             </figcaption>
           </figure>
-          <div className="space-y-3 text-ink-2">
+          <div className="min-w-0 space-y-3 text-ink-2">
             <p>
 Soy desarrollador de software y actualmente realizo mi etapa productiva en NTT DATA LATAM, donde fortalezco mis conocimientos trabajando con tecnologías empresariales como Java, Spring Boot y Angular.
             </p>
