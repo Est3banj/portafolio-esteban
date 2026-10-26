@@ -100,7 +100,20 @@
 
   @media (width < 768px) {
     .mesh {
-      display: none;
+      left: 0;
+      background-image:
+        repeating-linear-gradient(
+          to right,
+          rgb(255 255 255 / 0.04) 0 1px,
+          transparent 1px 56px
+        ),
+        repeating-linear-gradient(
+          to bottom,
+          rgb(255 255 255 / 0.04) 0 1px,
+          transparent 1px 56px
+        );
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 60%);
+      mask-image: linear-gradient(to right, transparent, #000 60%);
     }
   }
 
