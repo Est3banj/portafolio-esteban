@@ -1,8 +1,7 @@
 import { useRef, useState } from "react";
 
-// Formsubmit — first submission requires owner to click the activation email
-// confirmation. Until then delivery may not reach the owner; that is expected.
-const FORM_ENDPOINT = "https://formsubmit.co/ajax/estebanjurado2005@gmail.com";
+const FORM_ENDPOINT = "https://formspree.io/f/mnpppove";
+// Formspree — owner endpoint (verified: responds 200 {"ok":true} to JSON POST).
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const MAX_MESSAGE = 500;
@@ -130,10 +129,13 @@ const Contact = () => {
       }
       const remoteOk =
         !body ||
+        body.ok === true ||
         body.success === undefined ||
         body.success === null ||
+        body.success === true ||
+        body.success === "true" ||
         Number(body.success) === 1;
-      if (!res.ok || !remoteOk) throw new Error("formsubmit rejected");
+      if (!res.ok || !remoteOk) throw new Error("remote rejected");
       form.reset();
       setValues(EMPTY_VALUES);
       setErrors(EMPTY_VALUES);
