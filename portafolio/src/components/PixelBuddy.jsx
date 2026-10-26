@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import buddySheet from "../assets/pixel-buddy.png";
-import { playBloop, playKeystroke } from "../lib/sfx";
+import { ensureAudioRunning, playBloop, playKeystroke } from "../lib/sfx";
 
 const FRAME = 32;
 const FPS = { idle: 6, walk: 10, wave: 8 };
@@ -20,9 +20,14 @@ const BUBBLE_EDGE_GAP = 8;
 const BUBBLE_TOP_GAP = 14;
 const BUBBLE_TOP_MIN = 8;
 const GREET_MS = 1400;
+const GREET_DEADLINE_MS = 3000;
+const AUDIO_WAIT_MS = 50;
 const GREETING = "¡Hola! Bienvenido a mi espacio";
 const TYPE_MS = 35;
 const SECTION_DELAY_MS = 600;
+
+const withTimeout = (promise, ms) =>
+  Promise.race([promise, new Promise((resolve) => setTimeout(resolve, ms))]);
 
 const SECTION_IDS = ["inicio", "sobre-mi", "proyectos", "contacto"];
 
@@ -87,6 +92,9 @@ export default function PixelBuddy() {
   const clickIdx = useRef({});
   const bubbleTimer = useRef(0);
   const greetTimer = useRef(0);
+  const greetDeadline = useRef(0);
+  const greetArm = useRef(null);
+  const greetPhase = useRef("idle");
   const autoTimer = useRef(0);
   const typeTimer = useRef(0);
   const activeSectionId = useRef("inicio");
@@ -288,12 +296,19 @@ export default function PixelBuddy() {
   useEffect(
     () => () => {
       clearTimeout(bubbleTimer.current);
-      clearTimeout(greetTimer.current);
       clearTimeout(autoTimer.current);
       clearInterval(typeTimer.current);
     },
     [],
   );
+
+  const cancelGreeting = useCallback(() => {
+    clearTimeout(greetTimer.current);
+    greetTimer.current = 0;
+    greetArm.current?.();
+    greetArm.current = null;
+    greetPhase.current = "done";
+  }, []);
 
   const stopTyping = useCallback(() => {
     clearInterval(typeTimer.current);
@@ -340,25 +355,73 @@ export default function PixelBuddy() {
 
   useEffect(() => {
     markSectionShown("inicio");
-    greetTimer.current = setTimeout(() => {
+
+    const greet = (withSound) => {
+      greetPhase.current = "done";
       waveRef.current?.();
-      showMessage(GREETING, { keystrokes: true });
+      showMessage(GREETING, { keystrokes: withSound });
+    };
+
+    const armGestureWait = () => {
+      if (greetPhase.current !== "settle") return;
+      greetPhase.current = "waiting";
+      const disarm = () => {
+        clearTimeout(greetDeadline.current);
+        greetDeadline.current = 0;
+        document.removeEventListener("pointerdown", onGesture, true);
+        document.removeEventListener("keydown", onGesture, true);
+        if (greetArm.current === disarm) greetArm.current = null;
+      };
+      const onGesture = () => {
+        disarm();
+        /* resume may hang if the browser refuses — 50ms fallback, greet anyway */
+        void withTimeout(ensureAudioRunning(), AUDIO_WAIT_MS).then(() => {
+          if (greetPhase.current !== "waiting") return;
+          greet(true);
+        });
+      };
+      greetArm.current = disarm;
+      greetDeadline.current = setTimeout(() => {
+        disarm();
+        if (greetPhase.current !== "waiting") return;
+        greet(false);
+      }, GREET_DEADLINE_MS - GREET_MS);
+      document.addEventListener("pointerdown", onGesture, {
+        capture: true,
+        passive: true,
+      });
+      document.addEventListener("keydown", onGesture, {
+        capture: true,
+        passive: true,
+      });
+    };
+
+    greetPhase.current = "settle";
+    greetTimer.current = setTimeout(() => {
+      greetTimer.current = 0;
+      if (greetPhase.current !== "settle") return;
+      void withTimeout(ensureAudioRunning(), AUDIO_WAIT_MS).then((running) => {
+        if (greetPhase.current !== "settle") return;
+        if (running) greet(true);
+        else armGestureWait();
+      });
     }, GREET_MS);
-    return () => clearTimeout(greetTimer.current);
-  }, [showMessage]);
+
+    return cancelGreeting;
+  }, [showMessage, cancelGreeting]);
 
   useEffect(() => {
     const onSay = (event) => {
       const text = event?.detail?.phrase;
       if (!text) return;
-      clearTimeout(greetTimer.current);
+      cancelGreeting();
       clearTimeout(autoTimer.current);
       waveRef.current?.();
       showMessage(text);
     };
     window.addEventListener("buddy:say", onSay);
     return () => window.removeEventListener("buddy:say", onSay);
-  }, [showMessage]);
+  }, [showMessage, cancelGreeting]);
 
   useEffect(() => {
     if (typeof IntersectionObserver === "undefined") return undefined;
@@ -379,7 +442,7 @@ export default function PixelBuddy() {
         if (!sec || sectionShown(next)) return;
         autoTimer.current = setTimeout(() => {
           markSectionShown(next);
-          clearTimeout(greetTimer.current);
+          cancelGreeting();
           showMessage(sec.auto);
         }, SECTION_DELAY_MS);
       },
@@ -390,7 +453,7 @@ export default function PixelBuddy() {
       io.disconnect();
       clearTimeout(autoTimer.current);
     };
-  }, [showMessage]);
+  }, [showMessage, cancelGreeting]);
 
   useLayoutEffect(() => {
     if (!phrase) return undefined;
@@ -412,7 +475,7 @@ export default function PixelBuddy() {
   }, [phrase, typed]);
 
   const handleClick = useCallback(() => {
-    clearTimeout(greetTimer.current);
+    cancelGreeting();
     clearTimeout(autoTimer.current);
     playBloop();
     const id = activeSectionId.current;
@@ -422,7 +485,7 @@ export default function PixelBuddy() {
     clickIdx.current[key] = ((clickIdx.current[key] ?? -1) + 1) % pool.length;
     showMessage(pool[clickIdx.current[key]]);
     waveRef.current?.();
-  }, [showMessage]);
+  }, [showMessage, cancelGreeting]);
 
   return (
     <div className="buddy-dock">

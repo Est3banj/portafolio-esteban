@@ -37,6 +37,19 @@ const ensureCtx = () => {
   return ctx;
 };
 
+/* call inside a user gesture: resume + report whether keystrokes can play.
+   may stay pending if the browser refuses to resume — race it with a timeout */
+export const ensureAudioRunning = async () => {
+  try {
+    const ac = ensureCtx();
+    if (!ac) return false;
+    if (ac.state !== "running") await ac.resume();
+    return ac.state === "running";
+  } catch {
+    return false;
+  }
+};
+
 const voice = (ac, t0, { type, from, to, peak, dur }) => {
   const osc = ac.createOscillator();
   osc.type = type;
