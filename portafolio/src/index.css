@@ -215,6 +215,7 @@
   }
 
   .field {
+    display: block;
     width: 100%;
     padding: 8px 0;
     font-family: var(--font-mono);
@@ -230,12 +231,36 @@
 
   .field:focus {
     outline: none;
-    border-bottom-color: var(--color-accent);
-    box-shadow: 0 1px 0 0 var(--color-accent);
   }
 
   .field::placeholder {
     color: var(--color-ink-3);
+  }
+
+  .field-wrap {
+    position: relative;
+  }
+
+  .field-wrap::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background-color: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 200ms var(--ease-out);
+    pointer-events: none;
+  }
+
+  .field-wrap:focus-within::after {
+    transform: scaleX(1);
+  }
+
+  .field-wrap.is-error::after {
+    transform: scaleX(1);
   }
 
   .hp-field {
@@ -267,14 +292,34 @@
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .btn-send:hover {
+    .btn-send:not(:disabled):hover {
       border-color: rgb(255 255 255 / 0.5);
     }
   }
 
+  .btn-send:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+
   @media (prefers-reduced-motion: no-preference) {
-    .btn-send:active {
+    .btn-send:not(:disabled):active {
       transform: scale(0.97);
+    }
+  }
+
+  .status-in {
+    animation: status-in 300ms var(--ease-out) both;
+  }
+
+  @keyframes status-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 

@@ -348,6 +348,19 @@ export default function PixelBuddy() {
   }, [showMessage]);
 
   useEffect(() => {
+    const onSay = (event) => {
+      const text = event?.detail?.phrase;
+      if (!text) return;
+      clearTimeout(greetTimer.current);
+      clearTimeout(autoTimer.current);
+      waveRef.current?.();
+      showMessage(text);
+    };
+    window.addEventListener("buddy:say", onSay);
+    return () => window.removeEventListener("buddy:say", onSay);
+  }, [showMessage]);
+
+  useEffect(() => {
     if (typeof IntersectionObserver === "undefined") return undefined;
     const sections = SECTION_IDS.map((id) => document.getElementById(id));
     if (!sections.some(Boolean)) return undefined;
