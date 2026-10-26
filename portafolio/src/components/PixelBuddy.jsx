@@ -17,6 +17,11 @@ const BURST_MS = 260;
 const BURST_DIST = 120;
 const BUBBLE_MS = 2800;
 const BUBBLE_EDGE_GAP = 8;
+const BUBBLE_TOP_GAP = 14;
+const BUBBLE_TOP_MIN = 8;
+const GREET_MS = 1400;
+const GREET_KEY = "buddy-greeted";
+const GREET_PHRASE = "¡Hola! Tocá y escuchame";
 
 const PHRASES = [
   "Scrolleá, yo te sigo",
@@ -32,9 +37,11 @@ export default function PixelBuddy() {
   const waveRef = useRef(null);
   const phraseIdx = useRef(-1);
   const bubbleTimer = useRef(0);
+  const greetTimer = useRef(0);
   const bubbleRef = useRef(null);
   const [phrase, setPhrase] = useState("");
   const [flipped, setFlipped] = useState(false);
+  const [beside, setBeside] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -224,7 +231,35 @@ export default function PixelBuddy() {
     };
   }, []);
 
-  useEffect(() => () => clearTimeout(bubbleTimer.current), []);
+  useEffect(
+    () => () => {
+      clearTimeout(bubbleTimer.current);
+      clearTimeout(greetTimer.current);
+    },
+    [],
+  );
+
+  useEffect(() => {
+    let greeted = false;
+    try {
+      greeted = sessionStorage.getItem(GREET_KEY) === "1";
+    } catch {
+      /* storage unavailable — greet only this mount */
+    }
+    if (greeted) return undefined;
+    try {
+      sessionStorage.setItem(GREET_KEY, "1");
+    } catch {
+      /* storage unavailable — greet only this mount */
+    }
+    greetTimer.current = setTimeout(() => {
+      setPhrase(GREET_PHRASE);
+      clearTimeout(bubbleTimer.current);
+      bubbleTimer.current = setTimeout(() => setPhrase(""), BUBBLE_MS);
+      waveRef.current?.();
+    }, GREET_MS);
+    return () => clearTimeout(greetTimer.current);
+  }, []);
 
   useLayoutEffect(() => {
     if (!phrase) return undefined;
@@ -234,6 +269,8 @@ export default function PixelBuddy() {
       const dock = el.parentElement;
       if (!dock) return;
       const dockRect = dock.getBoundingClientRect();
+      const top = dockRect.top - BUBBLE_TOP_GAP - el.offsetHeight;
+      setBeside(top < BUBBLE_TOP_MIN);
       const centeredRight =
         dockRect.left + dockRect.width / 2 + el.offsetWidth / 2;
       setFlipped(centeredRight > window.innerWidth - BUBBLE_EDGE_GAP);
@@ -244,6 +281,7 @@ export default function PixelBuddy() {
   }, [phrase]);
 
   const handleClick = useCallback(() => {
+    clearTimeout(greetTimer.current);
     playBloop();
     phraseIdx.current = (phraseIdx.current + 1) % PHRASES.length;
     setPhrase(PHRASES[phraseIdx.current]);
@@ -259,7 +297,13 @@ export default function PixelBuddy() {
           ref={bubbleRef}
           role="status"
           aria-live="polite"
-          className={flipped ? "buddy-bubble is-flipped" : "buddy-bubble"}
+          className={
+            beside
+              ? "buddy-bubble is-beside"
+              : flipped
+                ? "buddy-bubble is-flipped"
+                : "buddy-bubble"
+          }
         >
           {phrase}
         </div>

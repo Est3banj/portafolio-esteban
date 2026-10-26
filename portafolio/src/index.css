@@ -306,14 +306,14 @@
     position: absolute;
     left: 50%;
     right: auto;
-    bottom: calc(100% + 12px);
+    bottom: calc(100% + 14px);
     transform: translateX(-50%);
     max-width: min(220px, calc(100vw - 120px));
-    padding: 6px 8px;
+    padding: 8px 10px;
     font-family: var(--font-mono);
     font-size: 12px;
     font-weight: 500;
-    line-height: 1.35;
+    line-height: 1.4;
     overflow-wrap: anywhere;
     color: var(--color-ink);
     background: var(--color-canvas);
@@ -357,11 +357,59 @@
 
   .buddy-bubble::before {
     margin-top: -1px;
-    border-top: 6px solid rgb(255 255 255 / 0.25);
+    border-top: 8px solid rgb(255 255 255 / 0.25);
   }
 
   .buddy-bubble::after {
-    border-top: 6px solid var(--color-canvas);
+    border-top: 8px solid var(--color-canvas);
+  }
+
+  .buddy-bubble.is-beside {
+    bottom: 0;
+    top: auto;
+    left: auto;
+    right: calc(100% + 10px);
+    transform: none;
+    animation-name: buddy-bubble-in-beside;
+  }
+
+  .buddy-bubble.is-beside::before,
+  .buddy-bubble.is-beside::after {
+    top: auto;
+    bottom: 32px;
+    left: 100%;
+    right: auto;
+    transform: translateY(50%);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 0;
+  }
+
+  .buddy-bubble.is-beside::before {
+    margin: 0 0 0 -1px;
+    border-right: 8px solid rgb(255 255 255 / 0.25);
+  }
+
+  .buddy-bubble.is-beside::after {
+    border-right: 8px solid var(--color-canvas);
+  }
+
+  @media (width >= 768px) {
+    .buddy-bubble.is-beside::before,
+    .buddy-bubble.is-beside::after {
+      bottom: 48px;
+    }
+  }
+
+  @keyframes buddy-bubble-in-beside {
+    from {
+      opacity: 0;
+      transform: translateX(4px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   @keyframes buddy-bubble-in {
