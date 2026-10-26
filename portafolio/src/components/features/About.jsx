@@ -19,7 +19,7 @@ const About = () => {
               width="160"
               height="160"
               decoding="async"
-              className="h-40 w-40 rounded-[6px] border border-white/10 object-cover"
+              className="portrait h-40 w-40 rounded-[6px] border border-white/10 object-cover"
             />
             <figcaption className="micro mt-2 text-ink-3">
               FIG. 01
