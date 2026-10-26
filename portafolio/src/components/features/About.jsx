@@ -33,6 +33,15 @@ const About = () => {
           <li>
             <p>↳ FORMACIÓN</p>
             <p className="text-ink-3">
+              INGENIERÍA EN SISTEMAS — UNAD, EN CURSO, 2026—
+            </p>
+            <p className="mt-1 micro text-ink-3">
+              HOMOLOGA EL TECNÓLOGO ADSO · INICIADO 2026
+            </p>
+          </li>
+          <li>
+            <p>↳ FORMACIÓN</p>
+            <p className="text-ink-3">
               TECNÓLOGO EN ANÁLISIS Y DESARROLLO DE SOFTWARE — SENA, 2026
             </p>
           </li>
