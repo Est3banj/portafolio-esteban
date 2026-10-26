@@ -21,23 +21,73 @@ const BUBBLE_TOP_GAP = 14;
 const BUBBLE_TOP_MIN = 8;
 const GREET_MS = 1400;
 const GREET_KEY = "buddy-greeted";
-const GREET_PHRASE = "¡Hola! Tocá y escuchame";
+const SECTION_DELAY_MS = 600;
 
-const PHRASES = [
-  "Scrolleá, yo te sigo",
-  "¿Viste los proyectos?",
-  "Tocá y escuchame *bip*",
-  "Escríbime, no muerdo",
-  "Puro píxel, cero plantilla",
-  "¿Hablamos de tu idea?",
-];
+const SECTION_IDS = ["inicio", "sobre-mi", "proyectos", "contacto"];
+
+const SECTION_MESSAGES = {
+  inicio: {
+    auto: "Hola, haz clic para hablar",
+    clicks: [
+      "Desarrollo a medida",
+      "Frontend y backend limpio",
+      "Arquitectura bien pensada",
+    ],
+  },
+  "sobre-mi": {
+    auto: "Mi trayectoria técnica",
+    clicks: [
+      "Formación SENA y UNAD",
+      "Certificado en OpenAI",
+      "Especializado en agentes IA",
+    ],
+  },
+  proyectos: {
+    auto: "Sistemas en producción",
+    clicks: [
+      "Caso real GIO TECH",
+      "Despliegues en vivo",
+      "Código propio escalable",
+    ],
+  },
+  contacto: {
+    auto: "Iniciemos un proyecto",
+    clicks: [
+      "Respuesta rápida por WhatsApp",
+      "Mensajes directo a mi email",
+      "Disponible para proyectos",
+    ],
+  },
+};
+
+const FALLBACK_PHRASES = ["Puro píxel, cero plantilla", "¿Hablamos de tu idea?"];
+
+const sectionFlag = (id) => `buddy-sec-${id}`;
+
+const sectionShown = (id) => {
+  try {
+    return sessionStorage.getItem(sectionFlag(id)) === "1";
+  } catch {
+    return false;
+  }
+};
+
+const markSectionShown = (id) => {
+  try {
+    sessionStorage.setItem(sectionFlag(id), "1");
+  } catch {
+    /* storage unavailable — auto message only lasts this mount */
+  }
+};
 
 export default function PixelBuddy() {
   const canvasRef = useRef(null);
   const waveRef = useRef(null);
-  const phraseIdx = useRef(-1);
+  const clickIdx = useRef({});
   const bubbleTimer = useRef(0);
   const greetTimer = useRef(0);
+  const autoTimer = useRef(0);
+  const activeSectionId = useRef("inicio");
   const bubbleRef = useRef(null);
   const [phrase, setPhrase] = useState("");
   const [flipped, setFlipped] = useState(false);
@@ -235,6 +285,7 @@ export default function PixelBuddy() {
     () => () => {
       clearTimeout(bubbleTimer.current);
       clearTimeout(greetTimer.current);
+      clearTimeout(autoTimer.current);
     },
     [],
   );
@@ -252,13 +303,48 @@ export default function PixelBuddy() {
     } catch {
       /* storage unavailable — greet only this mount */
     }
+    markSectionShown("inicio");
     greetTimer.current = setTimeout(() => {
-      setPhrase(GREET_PHRASE);
+      setPhrase(SECTION_MESSAGES.inicio.auto);
       clearTimeout(bubbleTimer.current);
       bubbleTimer.current = setTimeout(() => setPhrase(""), BUBBLE_MS);
       waveRef.current?.();
     }, GREET_MS);
     return () => clearTimeout(greetTimer.current);
+  }, []);
+
+  useEffect(() => {
+    if (typeof IntersectionObserver === "undefined") return undefined;
+    const sections = SECTION_IDS.map((id) => document.getElementById(id));
+    if (!sections.some(Boolean)) return undefined;
+    let prev = activeSectionId.current;
+    const io = new IntersectionObserver(
+      (entries) => {
+        let next = prev;
+        for (const entry of entries) {
+          if (entry.isIntersecting) next = entry.target.id;
+        }
+        if (next === prev) return;
+        prev = next;
+        activeSectionId.current = next;
+        clearTimeout(autoTimer.current);
+        const sec = SECTION_MESSAGES[next];
+        if (!sec || sectionShown(next)) return;
+        autoTimer.current = setTimeout(() => {
+          markSectionShown(next);
+          clearTimeout(greetTimer.current);
+          clearTimeout(bubbleTimer.current);
+          setPhrase(sec.auto);
+          bubbleTimer.current = setTimeout(() => setPhrase(""), BUBBLE_MS);
+        }, SECTION_DELAY_MS);
+      },
+      { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
+    );
+    sections.forEach((el) => el && io.observe(el));
+    return () => {
+      io.disconnect();
+      clearTimeout(autoTimer.current);
+    };
   }, []);
 
   useLayoutEffect(() => {
@@ -282,9 +368,14 @@ export default function PixelBuddy() {
 
   const handleClick = useCallback(() => {
     clearTimeout(greetTimer.current);
+    clearTimeout(autoTimer.current);
     playBloop();
-    phraseIdx.current = (phraseIdx.current + 1) % PHRASES.length;
-    setPhrase(PHRASES[phraseIdx.current]);
+    const id = activeSectionId.current;
+    const sec = id ? SECTION_MESSAGES[id] : undefined;
+    const pool = sec ? sec.clicks : FALLBACK_PHRASES;
+    const key = sec ? id : "__fallback";
+    clickIdx.current[key] = ((clickIdx.current[key] ?? -1) + 1) % pool.length;
+    setPhrase(pool[clickIdx.current[key]]);
     clearTimeout(bubbleTimer.current);
     bubbleTimer.current = setTimeout(() => setPhrase(""), BUBBLE_MS);
     waveRef.current?.();
